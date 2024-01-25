@@ -125,8 +125,7 @@ impl Keypair {
     ) -> Result<Self, Error> {
         let pk_doc = encrypted.decrypt(password).map_err(|e| e.to_string())?;
         let pk_info = pk_doc.private_key_info();
-        let sk =
-            ed25519_zebra::SigningKey::try_from(pk_info.private_key).map_err(|e| e.to_string())?;
+        let sk = SigningKeyZebra::try_from(pk_info.private_key).map_err(|e| e.to_string())?;
         Ok(Self::new(sk))
     }
 
@@ -151,7 +150,7 @@ impl Keypair {
         let secret = encrypted.decrypt(password)?;
         let pk_info: pkcs8::PrivateKeyInfo = secret.decode_msg()?;
         let sk =
-            ed25519_zebra::SigningKey::try_from(pk_info.private_key).map_err(|e| e.to_string())?;
+            SigningKeyZebra::try_from(pk_info.private_key).map_err(|e| e.to_string())?;
         Ok(Self::new(sk))
     }
 }
