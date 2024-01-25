@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use ed25519_zebra::{SigningKey, VerificationKey};
+use ed25519_zebra::{SigningKey as SigningKeyZebra, VerificationKey as VerificationKeyZebra};
 use pkcs8::spki::AlgorithmIdentifier;
 use rand::{thread_rng, Rng};
 use zeroize::Zeroizing;
@@ -10,18 +10,18 @@ pub type Error = Box<dyn std::error::Error + Send + Sync + 'static>;
 const ED25519_OID: pkcs8_07::ObjectIdentifier = pkcs8_07::ObjectIdentifier::new("1.3.101.112");
 
 pub struct Keypair {
-    pub vk: VerificationKey,
-    sk: SigningKey,
+    pub vk: VerificationKeyZebra,
+    sk: SigningKeyZebra,
 }
 
 impl Keypair {
     pub fn random() -> Self {
-        let key = ed25519_zebra::SigningKey::new(rand::thread_rng());
+        let key = SigningKeyZebra::new(rand::thread_rng());
         Self::new(key)
     }
-    pub fn new(sk: SigningKey) -> Self {
+    pub fn new(sk: SigningKeyZebra) -> Self {
         Self {
-            vk: VerificationKey::from(&sk),
+            vk: VerificationKeyZebra::from(&sk),
             sk,
         }
     }
