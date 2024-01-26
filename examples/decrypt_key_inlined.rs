@@ -1,7 +1,7 @@
 use pkcs_8_breaking_example::*;
 
 fn main() {
-    let path = "./pk.der";
+    let path = "./pkcs8-version.der";
     let password: &[u8] = b"password";
     let doc = std::fs::read(path).unwrap();
     let info = pkcs8::EncryptedPrivateKeyInfo::try_from(doc.as_ref()).unwrap();
