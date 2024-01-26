@@ -2,7 +2,7 @@ list:
     just --list
 
 openssl-command:
-    nix run nixpkgs#openssl -- pkcs8 --inform der --in pk.der --outform pem --out -
+    nix run nixpkgs#openssl -- pkcs8 --inform der --in pkcs8-version.der --outform pem --out -
 
 
 generate-keys:
